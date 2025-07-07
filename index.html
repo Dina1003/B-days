@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HBD Chat</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #ffeaea;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+       height: 100vh;
+  width: 100vw;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #ffeaea;
+      text-align: center;
+    }
+    .active {
+      display: flex;
+    }
+
+    .flower-fall {
+      position: absolute;
+      top: -40px;
+      width: 25px;
+      height: 25px;
+      background: gold;
+      border-radius: 50%;
+      opacity: 0.85;
+      box-shadow: 0 0 8px #ffd700;
+      animation: fall 5s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .hidden { display: none; }
+
+    .reveal {
+      text-align: center;
+      color: #a10052;
+      font-size: 24px;
+      margin-top: 20px;
+      animation: fadeIn 2s forwards;
+    }
+
+    .arrow-btn {
+      margin-top: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      background: #ffb6c1;
+      border: none;
+      border-radius: 50%;
+      padding: 10px 20px;
+      box-shadow: 2px 2px 5px gray;
+      transition: 0.3s;
+    }
+    .arrow-btn:hover { background: #ff99aa; }
+
+    .cat {
+      font-size: 80px;
+      animation: wiggle 2s infinite ease-in-out;
+    }
+    @keyframes wiggle {
+      0% { transform: rotate(-10deg); }
+      50% { transform: rotate(10deg); }
+      100% { transform: rotate(-10deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .cie-screen {
+      background: #fff0f5;
+      font-size: 28px;
+      color: #a10052;
+      padding: 20px;
+      animation: fadeIn 1s;
+    }
+
+    .bounce-text {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #a10052;
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .chat-box {
+      width: 300px;
+      height: 100%;
+      background: #e5ddd5;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      position: relative;
+      animation: fadeIn 1s;
+    }
+    .chat-header {
+      background: #075e54;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .chat-messages {
+  height: 100%; /* penting: biar muat semua konten termasuk foto */
+      background: #d2f8d2;
+       padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+    }
+   
+
+@keyframes dropGift {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(0); }
+}
+
+
+
+@keyframes slideUpCake {
+  to { transform: translateY(0); }
+}
+
+.open-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background: #ffb6c1;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px gray;
+}
+
+.open-btn:hover { background: #ff99aa; }
+
+#finalReveal {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#finalPhoto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.final-text {
+  margin-top: 10px;
+  font-size: 24px;
+  color: #a10052;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+    .message {
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.4;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .left { background: white; align-self: flex-start; }
+    .right { background: #dcf8c6; align-self: flex-end; }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    .photo-message {
+      max-width: 80%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      margin-top: 10px;
+      align-self: flex-end;
+    }
+    .photo-message img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .fireworks {
+       position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  pointer-events: none;
+    }
+    .spark {
+      position: absolute;
+      width: 4px;
+      height: 20px;
+      background: gold;
+      opacity: 0;
+      animation: firework 1s forwards;
+    }
+    @keyframes firework {
+      0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-100px) rotate(720deg); }
+    }
+
+    .cake-area {
+      background: #fff8f0;
+      padding: 15px;
+      text-align: center;
+    }
+    .cake {
+      position: relative;
+      width: 120px;
+      height: 80px;
+      background: linear-gradient(to bottom, #d2691e, #8b4513);
+      border-radius: 10px;
+      margin: 10px auto;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .icecream {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 40px;
+      background: linear-gradient(to bottom, #fddde6, #fbb1c1);
+      border-radius: 50% 50% 0 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .stick {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 20px;
+      background: #deb887;
+      border-radius: 3px;
+    }
+    .hbd-text {
+      margin-top: 5px;
+      font-weight: bold;
+      color: #a0522d;
+    }
+    .open-btn {
+  padding: 8px 15px;
+  font-size: 16px;
+  background: #ffb6c1;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px gray;
+  margin-top: 5px;
+}
+
+.open-btn:hover { background: #ff99aa; }
+
+.final-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.final-text {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #a10052;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Screen 1 -->
+  <div class="screen active" id="flowerScreen">
+    <div id="fallContainer"></div>
+    <div id="revealContent" class="hidden">
+      <div class="bounce-text">🎉 Birthday Chat 🎉</div>
+      <div class="cat">🐱</div>
+      <div class="reveal">You have one notification 🌺</div>
+      <button class="arrow-btn" onclick="showCie()">➜</button>
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div class="screen" id="cieScreen">
+    <div class="cie-screen">
+      <div>Wait... loading cah lu 🥱</div>
+         </div>
+  </div>
+
+  <!-- Screen 3 -->
+  <div class="screen" id="chatScreen">
+  <div class="chat-box">
+    <div class="chat-header">HBD</div>
+    <div class="chat-messages" id="chatMessages"></div>
+  </div>
+</div>
+
+
+  <script>
+  // Bunga jatuh
+  const fallContainer = document.getElementById('fallContainer');
+  const revealContent = document.getElementById('revealContent');
+  let flowerCount = 30;
+  let fallTime = 5000;
+
+  function createFlower() {
+    const flower = document.createElement('div');
+    flower.classList.add('flower-fall');
+    flower.style.left = Math.random() * 100 + 'vw';
+    fallContainer.appendChild(flower);
+    setTimeout(() => flower.remove(), fallTime);
+  }
+
+  for (let i = 0; i < flowerCount; i++) {
+    setTimeout(createFlower, i * 150);
+  }
+
+  setTimeout(() => {
+    fallContainer.classList.add('hidden');
+    revealContent.classList.remove('hidden');
+  }, flowerCount * 150 + 1000);
+
+  function showCie() {
+    document.getElementById('flowerScreen').classList.remove('active');
+    document.getElementById('cieScreen').classList.add('active');
+    setTimeout(() => {
+      document.getElementById('cieScreen').classList.remove('active');
+      document.getElementById('chatScreen').classList.add('active');
+      startChat();
+    }, 3000);
+  }
+
+  // Chat part
+  const chatMessages = document.getElementById('chatMessages');
+  const chatScript = [
+    { who: 'left', text: 'hello mrs. hbd, siapa yang ulah tahun?' },
+    { who: 'right', text: 'Hi! sebentar aku cek dulu' },
+    { who: 'right', text: 'hmmm atas nama dina?' },
+    { who: 'left', text: 'indaak !!! masih lamo 😭', special: 'shock' },
+    { who: 'right', text: 'oke easy ... aku coba cek lagi' },
+    { who: 'left', text: 'Lamo nyo lai ...' },
+    { who: 'right', text: 'sabar!!' },
+    { who: 'right', text: 'Ooooh iya ketemu ...' }
+  ];
+
+  function addMessage(msg) {
+    const div = document.createElement('div');
+    div.className = `${msg.who} message`;
+    div.textContent = msg.text;
+    chatMessages.appendChild(div);
+    if (msg.special === 'shock') {
+      div.classList.add('shake');
+      setTimeout(() => {
+        const emoji = document.createElement('div');
+        emoji.textContent = '😱';
+        emoji.style.fontSize = '30px';
+        emoji.style.marginTop = '5px';
+        emoji.className = 'right message';
+        chatMessages.appendChild(emoji);
+      }, 400);
+    }
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function startChat() {
+    let i = 0;
+    function next() {
+      if (i < chatScript.length) {
+        addMessage(chatScript[i]);
+        i++;
+        setTimeout(next, 1500);
+      } else {
+        setTimeout(showGiftButton, 1500);
+      }
+    }
+    next();
+  }
+
+  function showGiftButton() {
+    const btn = document.createElement('button');
+    btn.textContent = '🎁 Buka Kado 🎁';
+    btn.className = 'open-btn right message';
+    btn.onclick = revealFinalGift;
+    chatMessages.appendChild(btn);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function revealFinalGift() {
+    // Remove button
+    const btn = document.querySelector('.open-btn');
+    if (btn) btn.remove();
+
+    // Add photo
+    const photoDiv = document.createElement('div');
+    photoDiv.className = 'right message';
+    photoDiv.style.display = 'flex';
+    photoDiv.style.flexDirection = 'column';
+    photoDiv.style.alignItems = 'center';
+    photoDiv.innerHTML = `
+      <img src="tes.jpg" alt="Foto Ulang Tahun" class="final-photo">
+      <div class="final-text">🎉 Happy Birthday 🎉</div>
+    `;
+    chatMessages.appendChild(photoDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+</script>
+
+
+</body>
+</html>
